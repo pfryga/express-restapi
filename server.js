@@ -34,6 +34,34 @@ router.get('/', function(req, res) {
 	res.json({ message: 'hooray! welcome to our api!' });	
 });
 
+// on routes that end in /bears
+// ----------------------------------------------------
+
+router.route('/bears')
+	.post(function(req, res) {
+		var bear = new Bear();
+		bear.name = req.body.name;
+
+		bear.save(function(err) {
+			if(err) {
+				res.send(err);
+			}
+			res.json({
+				message: 'bear created'
+			});
+		});
+	})
+	.get(function(req, res) {
+		Bear.find(function(err, bears) {
+			if (err)
+				res.send(err);
+
+			res.json(bears);
+		});
+	});
+
+// create a bear (accessed at POST http://localhost:8080/api/bears)
+
 // more routes for our API will happen here
 
 // REGISTER OUR ROUTES -------------------------------
